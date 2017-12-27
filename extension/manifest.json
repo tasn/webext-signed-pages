@@ -7,7 +7,8 @@
   "homepage_url": "https://github.com/tasn/webext-signed-pages",
   "icons": {
       "48": "images/icon.png",
-      "96": "images/icon-96.png"
+      "96": "images/icon-96.png",
+      "128": "images/icon-128.png"
   },
 
   "browser_action": {
