@@ -32,6 +32,20 @@ $ ./page-signer.js input.html output.html
 
 It's important to have all of the script tags in the page included with [subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) correctly set. This way you only need to sign the html page, and the rest will be automatically validated by the browser, ensuring that all of the scripts and styles used in the page are indeed what you expect.
 
+# Building
+
+Setup the environment needed for this extension and `page-signer.js`:
+
+`npm install`
+
+To build the extension for development run:
+
+`npm build`
+
+To build it for deployment run:
+
+`npm package`
+
 # Technical details
 
 This extension verifies the content of the minified `<html>` tag because getting the page's source as downloaded without extra whitespaces or other changes is currently impossible. This will change once `browser.webRequest.filterResponseData` is properly supported by browsers, but until then, this is what we are stuck with.

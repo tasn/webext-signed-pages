@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack -w --display-error-details --progress --colors",
+    "package": "webpack --colors && web-ext build -s extension",
     "start": "web-ext run -s extension/"
   },
   "author": "",
