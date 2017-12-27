@@ -10,6 +10,16 @@ This extension solves this by verifying the code really came from the developer.
 
 # Usage
 
+## Installation
+
+The official extensions represent the current stable release.
+
+- [Chrome extension](https://chrome.google.com/webstore/detail/signed-pages/pdhofgeoopaglkejgpjojeikbdmkmkbp)
+- [Firefox extension (Coming soon!)]()
+
+Opera users can [enable Chrome extensions](https://addons.opera.com/extensions/details/download-chrome-extension-9/) and then install the [Chrome extension](https://chrome.google.com/webstore/detail/signed-pages/pdhofgeoopaglkejgpjojeikbdmkmkbp).
+
+
 ## As a user
 
 All you need to do is install the extension, and from its settings page, add patterns to match pages you'd like to verify, and their corresponding publisher's public key. The developers of those websites must have their pages signed for this extension to work.
