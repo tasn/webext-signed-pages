@@ -57,31 +57,36 @@ function updateBrowserAction(data, tabId) {
   }
 }
 
+function processPage(rawContent, signature, url, tabId) {
+  const content = new Minimize({ spare:true, conditionals: true, empty: true, quotes: true }).parse(rawContent)
+    .replace(/^\s*<!doctype[^>]*>/i, '');
+
+  const shouldCheck = Object.keys(patterns).find((x) => (regex(x, url)));
+
+  if (shouldCheck) {
+    try {
+      const pubkey = patterns[shouldCheck];
+
+      const options = {
+        message: openpgp.message.fromBinary(openpgp.util.str2Uint8Array(content)),
+        signature: openpgp.signature.readArmored(signature),
+        publicKeys: openpgp.key.readArmored(pubkey).keys,
+      };
+
+      openpgp.verify(options).then((verified) => {
+        const signatureData = (verified.signatures[0].valid) ? goodSignature : badSignature;
+        updateBrowserAction(signatureData, tabId);
+      });
+    } catch (e) {
+      updateBrowserAction(badSignature, tabId);
+    }
+  } else {
+    updateBrowserAction(neutralSignature, tabId);
+  }
+}
+
 browser.runtime.onMessage.addListener(
   (request, sender) => {
-    const content = new Minimize({ spare:true, conditionals: true, empty: true, quotes: true }).parse(request.content);
-
-    const shouldCheck = Object.keys(patterns).find((x) => (regex(x, sender.url)));
-
-    if (shouldCheck) {
-      try {
-        const pubkey = patterns[shouldCheck];
-
-        const options = {
-          message: openpgp.message.fromBinary(openpgp.util.str2Uint8Array(content)),
-          signature: openpgp.signature.readArmored(request.signature),
-          publicKeys: openpgp.key.readArmored(pubkey).keys,
-        };
-
-        openpgp.verify(options).then((verified) => {
-          const signatureData = (verified.signatures[0].valid) ? goodSignature : badSignature;
-          updateBrowserAction(signatureData, sender.tab.id);
-        });
-      } catch (e) {
-        updateBrowserAction(badSignature, sender.tab.id);
-      }
-    } else {
-      updateBrowserAction(neutralSignature, sender.tab.id);
-    }
+    processPage(request.content, request.signature, sender.url, sender.tab.id)
   }
 );
