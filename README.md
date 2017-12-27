@@ -15,7 +15,7 @@ This extension solves this by verifying the code really came from the developer.
 The official extensions represent the current stable release.
 
 - [Chrome extension](https://chrome.google.com/webstore/detail/signed-pages/pdhofgeoopaglkejgpjojeikbdmkmkbp)
-- [Firefox extension (Coming soon!)]()
+- [Firefox extension (Coming soon!)](#)
 
 Opera users can [enable Chrome extensions](https://addons.opera.com/extensions/details/download-chrome-extension-9/) and then install the [Chrome extension](https://chrome.google.com/webstore/detail/signed-pages/pdhofgeoopaglkejgpjojeikbdmkmkbp).
 
