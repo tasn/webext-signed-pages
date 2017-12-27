@@ -68,7 +68,7 @@ To build it for deployment run:
 
 # Technical details
 
-This extension verifies the content of the minified `<html>` tag because getting the page's source as downloaded without extra white-spaces or other changes is currently impossible. This will change once `browser.webRequest.filterResponseData` is properly supported by browsers, but until then, this is what we are stuck with.
+This extension verifies the content of the minified `<html>` tag because getting the page's source as downloaded without extra white-spaces or other changes is currently impossible across browsers other than Firefox. This will change once `browser.webRequest.filterResponseData` is properly supported by browsers, but until then, this is what we are stuck with.
 
 We therefore have to normalise `<html>`'s content, and the best way to do that is to just minify it. Be aware that the minifier may have bugs that can cause a page to pass verification while being different! Unlikely, but possible, so watch out for minifier bugs.
 
@@ -76,7 +76,13 @@ We therefore have to normalise `<html>`'s content, and the best way to do that i
 
 * This extension rejects pages with `<script>` tags outside of the `<html>` tag, so while this could have potentially been an issue, it has been mitigated.
 
-This will be solved once `browser.webRequest.filterResponseData` is implemented in browsers and we can switch to it. Until then we rely on detecting and mitigating against such attacks.
+The whole page, other than the doctype is validated in Firefox since it implements `browser.webRequest.filterResponseData`.
+
+Other browsers are implemented slightly differently and may be exposed to similar attacks.
+
+# Known issues
+
+* The page action (badge showing the validity) disappears on Firefox when navigating back/forward.
 
 # Attribution
 
