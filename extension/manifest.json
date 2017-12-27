@@ -3,7 +3,7 @@
   "manifest_version": 2,
   "name": "Signed Pages",
   "description": "Verifies PGP signed pages for extra security against malicious or breached servers.",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "homepage_url": "https://github.com/tasn/webext-signed-pages",
   "icons": {
       "48": "images/icon.png",
