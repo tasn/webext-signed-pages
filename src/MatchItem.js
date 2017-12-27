@@ -40,6 +40,7 @@ export default class MatchItem extends React.PureComponent {
           placeholder="-----BEGIN PGP PUBLIC KEY BLOCK----- ..."
           style={style.fullWidth}
           value={this.props.pubkey}
+          rows={6}
           onChange={this.handleInputChange}
         />
         <button onClick={() => this.props.onDeleteRequest(this.props.itemKey)}>Remove item</button>
