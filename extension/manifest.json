@@ -1,18 +1,19 @@
 {
 
-  "description": "Adds a solid red border to all webpages matching mozilla.org. See https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Examples#borderify",
   "manifest_version": 2,
-  "name": "Borderify",
-  "version": "1.0",
-  "homepage_url": "https://github.com/mdn/webextensions-examples/tree/master/borderify",
+  "name": "Signed Pages",
+  "description": "Verifies PGP signed pages for extra security against malicious or breanched servers.",
+  "version": "0.1.0",
+  "homepage_url": "https://github.com/tasn/webext-signed-pages",
   "icons": {
-    "48": "images/Watermelon-48.png"
+      "48": "images/icon.png",
+      "96": "images/icon-96.png"
   },
 
   "browser_action": {
     "browser_style": true,
     "default_icon": {
-      "48": "images/sigNeutral.png"
+        "48": "images/icon.png"
     }
   },
 
