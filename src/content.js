@@ -1,5 +1,7 @@
 import browser from 'webextension-polyfill';
 
+import { hasFilteredResponse } from 'browser-check';
+
 function findSignature(document_root) {
   let node = document_root.firstChild;
   while (node) {
@@ -11,36 +13,39 @@ function findSignature(document_root) {
   }
 }
 
+// Fallback code if filterResponseData is not supported
+if (!hasFilteredResponse()) {
 
-let ran = false;
-const signatureCheck = () => {
-  if (ran)
-    return;
+  let ran = false;
+  const signatureCheck = () => {
+    if (ran)
+      return;
 
-  ran = true;
-  // XXX: Ignore errors for now due to the webextension-polyfill
-  browser.runtime.sendMessage({ signature, content: document.documentElement.outerHTML }).then(() => {}, () => {});
-};
+    ran = true;
+    // XXX: Ignore errors for now due to the webextension-polyfill
+    browser.runtime.sendMessage({ signature, content: document.documentElement.outerHTML }).then(() => {}, () => {});
+  };
 
-const mutationObserver = (mutationList, thisObserver) => {
-  for (const mutation of mutationList) {
-    for (const node of mutation.addedNodes) {
-      if (node.tagName === 'BODY') {
-        signatureCheck();
-        thisObserver.disconnect();
-        return;
+  const mutationObserver = (mutationList, thisObserver) => {
+    for (const mutation of mutationList) {
+      for (const node of mutation.addedNodes) {
+        if (node.tagName === 'BODY') {
+          signatureCheck();
+          thisObserver.disconnect();
+          return;
+        }
       }
     }
   }
-}
 
-const signature = findSignature(document);
+  const signature = findSignature(document);
 
-if (signature) {
-  const observer = new MutationObserver(mutationObserver);
-  observer.observe(document, {childList: true, subtree: true});
-  document.onreadystatechange = signatureCheck;
-} else {
-  // XXX: Ignore errors for now due to the webextension-polyfill
-  browser.runtime.sendMessage({ }).then(() => {}, () => {});
+  if (signature) {
+    const observer = new MutationObserver(mutationObserver);
+    observer.observe(document, {childList: true, subtree: true});
+    document.onreadystatechange = signatureCheck;
+  } else {
+    // XXX: Ignore errors for now due to the webextension-polyfill
+    browser.runtime.sendMessage({ }).then(() => {}, () => {});
+  }
 }

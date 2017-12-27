@@ -1,5 +1,7 @@
 import browser from 'webextension-polyfill';
 
+import { hasFilteredResponse } from 'browser-check';
+
 import * as openpgp from 'openpgp';
 
 import Minimize from 'minimize';
@@ -85,8 +87,37 @@ function processPage(rawContent, signature, url, tabId) {
   }
 }
 
-browser.runtime.onMessage.addListener(
-  (request, sender) => {
-    processPage(request.content, request.signature, sender.url, sender.tab.id)
+if (hasFilteredResponse()) {
+  const listener = (details) => {
+    // FIXME: Only filter pages that we care about, the rest can skip this.
+    let filter = browser.webRequest.filterResponseData(details.requestId);
+    let decoder = new TextDecoder('utf-8');
+    let encoder = new TextEncoder('utf-8');
+
+    filter.ondata = event => {
+      const str = decoder.decode(event.data, {stream: true});
+
+      const signatureMatch = /-----BEGIN PGP SIGNATURE-----[^-]*-----END PGP SIGNATURE-----/g.exec(str);
+      const signature = signatureMatch ? signatureMatch[0] : undefined;
+
+      processPage(str, signature, details.url, details.tabId);
+
+      filter.write(encoder.encode(str));
+      filter.disconnect();
+    }
+
+    return {};
   }
-);
+
+  browser.webRequest.onBeforeRequest.addListener(
+    listener,
+    {urls: ["<all_urls>"], types: ["main_frame"]},
+    ["blocking"]
+  );
+} else {
+  browser.runtime.onMessage.addListener(
+    (request, sender) => {
+      processPage(request.content, request.signature, sender.url, sender.tab.id)
+    }
+  );
+}
