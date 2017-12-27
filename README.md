@@ -32,6 +32,16 @@ $ ./page-signer.js input.html output.html
 
 It's important to have all of the script tags in the page included with [subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) correctly set. This way you only need to sign the html page, and the rest will be automatically validated by the browser, ensuring that all of the scripts and styles used in the page are indeed what you expect.
 
+## Example pages
+
+You can try the following example pages to see how the extension behaves:
+
+Install the extension and add the pattern and pubkey shown in the page from the extension's settings.
+
+* A page with a good signature: https://stosb.com/~tom/signed-pages/good.html
+* A page with a bad signature: https://stosb.com/~tom/signed-pages/bad.html
+* A page with a missing (but expected) signature: https://stosb.com/~tom/signed-pages/missing.html
+
 # Building
 
 Setup the environment needed for this extension and `page-signer.js`:
