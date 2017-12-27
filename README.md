@@ -68,7 +68,7 @@ To build it for deployment run:
 
 # Technical details
 
-This extension verifies the content of the minified `<html>` tag because getting the page's source as downloaded without extra whitespaces or other changes is currently impossible. This will change once `browser.webRequest.filterResponseData` is properly supported by browsers, but until then, this is what we are stuck with.
+This extension verifies the content of the minified `<html>` tag because getting the page's source as downloaded without extra white-spaces or other changes is currently impossible. This will change once `browser.webRequest.filterResponseData` is properly supported by browsers, but until then, this is what we are stuck with.
 
 We therefore have to normalise `<html>`'s content, and the best way to do that is to just minify it. Be aware that the minifier may have bugs that can cause a page to pass verification while being different! Unlikely, but possible, so watch out for minifier bugs.
 
@@ -80,7 +80,7 @@ This will be solved once `browser.webRequest.filterResponseData` is implemented 
 
 # Attribution
 
-Icons are based on the folowing icons:
+Icons are based on the following icons:
 
 * Shield made by [Smashicons](https://www.flaticon.com/authors/smashicons) and licensed as [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
 * Checked made by [Eleonor Wang](https://www.flaticon.com/authors/eleonor-wang) and licensed as [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)
