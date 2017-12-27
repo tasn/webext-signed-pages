@@ -88,6 +88,11 @@ function processPage(rawContent, signature, url, tabId) {
   }
 }
 
+function extractSignature(str) {
+  const signatureMatch = /-----BEGIN PGP SIGNATURE-----[^-]*-----END PGP SIGNATURE-----/g.exec(str);
+  return signatureMatch ? signatureMatch[0] : undefined;
+}
+
 if (hasFilteredResponse()) {
   const listener = (details) => {
     // FIXME: Only filter pages that we care about, the rest can skip this.
@@ -98,8 +103,7 @@ if (hasFilteredResponse()) {
     filter.ondata = event => {
       const str = decoder.decode(event.data, {stream: true});
 
-      const signatureMatch = /-----BEGIN PGP SIGNATURE-----[^-]*-----END PGP SIGNATURE-----/g.exec(str);
-      const signature = signatureMatch ? signatureMatch[0] : undefined;
+      const signature = extractSignature(str);
 
       processPage(str, signature, details.url, details.tabId);
 
@@ -118,7 +122,7 @@ if (hasFilteredResponse()) {
 } else {
   browser.runtime.onMessage.addListener(
     (request, sender) => {
-      processPage(request.content, request.signature, sender.url, sender.tab.id)
+      processPage(request.content, extractSignature(request.signature), sender.url, sender.tab.id)
     }
   );
 }
