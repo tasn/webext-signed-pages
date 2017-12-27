@@ -42,20 +42,21 @@ const badSignature = createSignatureData('images/sigBad.png', 'Bad or Missing Si
 const neutralSignature = createSignatureData('images/sigNeutral.png', 'No signature expected.', true);
 
 function updateBrowserAction(data, tabId) {
-  browser.browserAction.setIcon({
+  browser.pageAction.setIcon({
     path: data.icon,
     tabId,
   });
 
-  browser.browserAction.setTitle({
+  browser.pageAction.setTitle({
     title: data.title,
     tabId,
   });
 
+  const pageAction = chrome ? chrome.pageAction : browser.pageAction;
   if (data.disable) {
-    browser.browserAction.disable(tabId);
+    pageAction.hide(tabId);
   } else {
-    browser.browserAction.enable(tabId);
+    pageAction.show(tabId);
   }
 }
 

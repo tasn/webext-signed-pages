@@ -11,7 +11,7 @@
       "128": "images/icon-128.png"
   },
 
-  "browser_action": {
+  "page_action": {
     "browser_style": true,
     "default_icon": {
         "48": "images/icon.png"
