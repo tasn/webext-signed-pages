@@ -68,9 +68,15 @@ To build it for deployment run:
 
 # Technical details
 
-This extension verifies the content of the minified `<html>` tag because getting the page's source as downloaded without extra white-spaces or other changes is currently impossible across browsers other than Firefox. This will change once `browser.webRequest.filterResponseData` is properly supported by browsers, but until then, this is what we are stuck with.
+On Firefox, this extension relies on [`webRequest.filterResponseData`](https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/webRequest/filterResponseData) which lets it intercept the request and sign the page as transferred by the server, so it can verify the page exactly as sent.
 
-We therefore have to normalise `<html>`'s content, and the best way to do that is to just minify it. Be aware that the minifier may have bugs that can cause a page to pass verification while being different! Unlikely, but possible, so watch out for minifier bugs.
+Unfortunately, other browsers don't support this API yet, which means we have to resort to a less clean way of doing it. On other browsers, the extension waits until the DOM has loaded, and just before scripts have been executed to get `document.documentElement.outerHTML`. This means that on these browsers it only has the ability to verify the `<html>` tag and its contents.
+
+What makes matters even worse is that browsers don't return the html as delivered, but may mangle it a bit, which means we have to transform the content into a canonical form before signing (and verifying). This forces us to use a minifier on the html.
+
+Be aware that the minifier may have bugs that can cause a page to pass verification while being different! Unlikely, but possible, so watch out for minifier bugs.
+
+Since the same signature needs to work on all browsers, we unfortunately have to minimise the html on Firefox too. This workaround will be removed once the aforementioned `filterResponseData` is implemented across browsers.
 
 # Potential attacks
 
