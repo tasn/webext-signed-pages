@@ -98,7 +98,6 @@ if (hasFilteredResponse()) {
     // FIXME: Only filter pages that we care about, the rest can skip this.
     let filter = browser.webRequest.filterResponseData(details.requestId);
     let decoder = new TextDecoder('utf-8');
-    let encoder = new TextEncoder('utf-8');
 
     filter.ondata = event => {
       const str = decoder.decode(event.data, {stream: true});
@@ -107,7 +106,7 @@ if (hasFilteredResponse()) {
 
       processPage(str, signature, details.url, details.tabId);
 
-      filter.write(encoder.encode(str));
+      filter.write(event.data);
       filter.disconnect();
     }
 
