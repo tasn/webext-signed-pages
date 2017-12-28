@@ -39,5 +39,11 @@
       "webRequest",
       "webRequestBlocking",
       "<all_urls>"
-  ]
+  ],
+
+  "applications": {
+    "gecko": {
+      "strict_min_version": "57.0a1"
+    }
+  }
 }
