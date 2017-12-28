@@ -2,6 +2,9 @@
 
 A browser extension to verify the authenticity (PGP signature) of web pages.
 
+[![Mozilla Add-on](https://img.shields.io/amo/v/signed-pages.svg)](https://addons.mozilla.org/addon/signed-pages/)
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/pdhofgeoopaglkejgpjojeikbdmkmkbp.svg)](https://chrome.google.com/webstore/detail/signed-pages/pdhofgeoopaglkejgpjojeikbdmkmkbp)
+
 # Why?
 
 This extension was originally created to improve the security of the [EteSync web app](https://www.etesync.com). One of the biggest issues with securing web applications is the fact that the app (JavaScript) is delivered to you every time you open the page. This means that a malicious (or compromised) web server could change the code to steal your supposedly client-side-only and secure data.
