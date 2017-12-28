@@ -1,20 +1,21 @@
 import browser from 'webextension-polyfill';
 
 import { hasFilteredResponse } from 'browser-check';
+import { matchPatternToRegExp } from 'match-pattern';
 
 import * as openpgp from 'openpgp';
 
 import Minimize from 'minimize';
 
 function regex(pattern, input) {
-  const re = new RegExp(pattern);
+  const re = matchPatternToRegExp(pattern);
   return re.test(input);
 }
 
 function transformPatternsFromStorage(items) {
   let ret = {};
   items.forEach((item) => {
-    ret['^' + item.regex + '$'] = item.pubkey;
+    ret[item.regex] = item.pubkey;
   });
 
   return ret;
