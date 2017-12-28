@@ -53,7 +53,7 @@ class Popup extends React.Component {
       <div>
         <h1>Websites and Keys</h1>
         <p>
-          Each entry is a regular expression to match a URL with, and the corresponding expected public key.
+          Each entry is a <a href="https://developer.mozilla.org/en-US/Add-ons/WebExtensions/Match_patterns">match pattern</a> to match a URL with, and the corresponding expected public key for that pattern.
         </p>
         <div>
           {this.state.items.map((item, idx) => (

@@ -28,7 +28,7 @@ export default class MatchItem extends React.PureComponent {
         <input
           type="text"
           name="regex"
-          placeholder="https?://example.com/secure/.*"
+          placeholder="*://example.com/secure/*"
           style={style.fullWidth}
           value={this.props.regex}
           onChange={this.handleInputChange}
