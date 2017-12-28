@@ -15,7 +15,7 @@ This extension solves this by verifying the code really came from the developer.
 The official extensions represent the current stable release.
 
 - [Chrome extension](https://chrome.google.com/webstore/detail/signed-pages/pdhofgeoopaglkejgpjojeikbdmkmkbp)
-- [Firefox extension](https://addons.mozilla.org/addon/signed-pages/) - **There are currently some issues with Firefox, please take a look at the [Known Issues](#known-issues) section below.**
+- [Firefox extension](https://addons.mozilla.org/addon/signed-pages/)
 
 Opera users can [enable Chrome extensions](https://addons.opera.com/extensions/details/download-chrome-extension-9/) and then install the [Chrome extension](https://chrome.google.com/webstore/detail/signed-pages/pdhofgeoopaglkejgpjojeikbdmkmkbp).
 
@@ -82,8 +82,7 @@ Other browsers are implemented slightly differently and may be exposed to simila
 
 # Known issues
 
-* The page action (badge showing the validity) doesn't show when following a link, only when navigating through the navigation bar.
-* The page action (badge showing the validity) disappears on Firefox when navigating back/forward.
+* On Firefox, you may need to refresh a page for the first time after installing the extension if the page was already in cache.
 
 # Attribution
 
