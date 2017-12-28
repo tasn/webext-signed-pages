@@ -36,6 +36,7 @@
 
   "permissions": [
       "storage",
+      "webNavigation",
       "webRequest",
       "webRequestBlocking",
       "<all_urls>"

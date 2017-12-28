@@ -60,6 +60,9 @@ function updateBrowserAction(data, tabId) {
   }
 }
 
+// Cache the result status in case we are not doing web requests.
+let statusCache = {};
+
 function processPage(rawContent, signature, url, tabId) {
   const content = new Minimize({ spare:true, conditionals: true, empty: true, quotes: true }).parse(rawContent)
     .replace(/^\s*<!doctype[^>]*>/i, '');
@@ -79,9 +82,11 @@ function processPage(rawContent, signature, url, tabId) {
       openpgp.verify(options).then((verified) => {
         const signatureData = (verified.signatures[0].valid) ? goodSignature : badSignature;
         updateBrowserAction(signatureData, tabId);
+        statusCache[url] = signatureData;
       });
     } catch (e) {
       updateBrowserAction(badSignature, tabId);
+      statusCache[url] = badSignature;
     }
   } else {
     updateBrowserAction(neutralSignature, tabId);
@@ -118,6 +123,13 @@ if (hasFilteredResponse()) {
     {urls: ["<all_urls>"], types: ["main_frame"]},
     ["blocking"]
   );
+
+  // Load results from cache if the page is cached
+  browser.webNavigation.onCommitted.addListener((details) => {
+    if (details.url in statusCache) {
+      updateBrowserAction(statusCache[details.url], details.tabId);
+    }
+  });
 } else {
   browser.runtime.onMessage.addListener(
     (request, sender) => {
