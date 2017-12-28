@@ -1,7 +1,7 @@
 {
   "name": "signed-pages",
   "description": "Verifies PGP signed pages for extra security against malicious or breanched servers.",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "main": "index.js",
   "scripts": {
     "build": "webpack -w --display-error-details --progress --colors",
