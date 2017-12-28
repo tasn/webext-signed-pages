@@ -2,6 +2,7 @@
 
 A browser extension to verify the authenticity (PGP signature) of web pages.
 
+![GitHub tag](https://img.shields.io/github/tag/tasn/webext-signed-pages.svg)
 [![Mozilla Add-on](https://img.shields.io/amo/v/signed-pages.svg)](https://addons.mozilla.org/addon/signed-pages/)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/pdhofgeoopaglkejgpjojeikbdmkmkbp.svg)](https://chrome.google.com/webstore/detail/signed-pages/pdhofgeoopaglkejgpjojeikbdmkmkbp)
 
