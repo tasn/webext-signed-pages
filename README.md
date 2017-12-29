@@ -1,4 +1,7 @@
-# Signed Pages
+<p align="center">
+  <img width="120" src="graphics/icon.svg" />
+  <h1 align="center">Signed Pages</h1>
+</p>
 
 A browser extension to verify the authenticity (PGP signature) of web pages.
 
