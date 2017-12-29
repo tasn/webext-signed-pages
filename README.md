@@ -59,6 +59,14 @@ $ ./page-signer.js input.html output.html
 
 It's important to have all of the script tags in the page included with [subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) correctly set. This way you only need to sign the html page, and the rest will be automatically validated by the browser, ensuring that all of the scripts and styles used in the page are indeed what you expect.
 
+### A note on dynamic websites
+
+The `page-signer.js` tool above was designed to work with static html files, meaning html files that are not generated on the fly by the server. The reason for that is that for the signing to be most effective, pages need to be signed by the author in advance, and can't be done dynamically by the server.
+
+This is perfect for statically generated websites and blogs, or web apps like that draw their dynamic content through JavaScript such as applications created with React, VueJS, Angular and Ember.
+
+There are some workaronuds to dynamic websites work, by for example including dynamic content that doesn't matter like comments in an `<iframe>`, but those are quite involved and out of scope for this document.
+
 # Supported Sites
 
 Adding support is easy. If you are a user and would like a website to be supported, please contact the site's owner and point them to this readme.
