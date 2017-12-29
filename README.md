@@ -59,6 +59,15 @@ $ ./page-signer.js input.html output.html
 
 It's important to have all of the script tags in the page included with [subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) correctly set. This way you only need to sign the html page, and the rest will be automatically validated by the browser, ensuring that all of the scripts and styles used in the page are indeed what you expect.
 
+# Supporting Sites
+
+If your sites supports Signed Pages please consider adding the following badge (as a link to your settings) to let your users know about it.
+
+![Signed Pages Badge](graphics/badge.svg)
+
+List of websites that support Signed Pages:
+* [EteSync Web App](https://client.etesync.com)
+
 # Building
 
 Setup the environment needed for this extension and `page-signer.js`:
