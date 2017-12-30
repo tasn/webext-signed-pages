@@ -63,7 +63,7 @@ It's important to have all of the script tags in the page included with [subreso
 
 The `page-signer.js` tool above was designed to work with static html files, meaning html files that are not generated on the fly by the server. The reason for that is that for the signing to be most effective, pages need to be signed by the author in advance, and can't be done dynamically by the server.
 
-This is perfect for statically generated websites and blogs, or web apps like that draw their dynamic content through JavaScript such as applications created with React, VueJS, Angular and Ember.
+This is perfect for statically generated websites and blogs using tools such as Pelican and Jekyll, or web apps like that draw their dynamic content through JavaScript such as applications created with React, VueJS, Angular and Ember.
 
 There are some workaronuds to dynamic websites work, by for example including dynamic content that doesn't matter like comments in an `<iframe>`, but those are quite involved and out of scope for this document.
 
