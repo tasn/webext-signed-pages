@@ -39,6 +39,7 @@ browser.storage.onChanged.addListener((changes, area) => {
 
 const createSignatureData = (icon, title, disable) => ({icon, title, disable});
 const goodSignature = createSignatureData('images/sigGood.png', 'Valid Signature!');
+const unsureSignature = createSignatureData('images/sigMaybe.png', 'Error! Please Refresh Page and Contact Developers');
 const badSignature = createSignatureData('images/sigBad.png', 'Bad or Missing Signature!');
 const neutralSignature = createSignatureData('images/sigNeutral.png', 'No signature expected.', true);
 
@@ -61,6 +62,10 @@ function updateBrowserAction(data, tabId) {
   }
 }
 
+function getPubkey(pubkeyPatterns, url) {
+  return Object.keys(pubkeyPatterns).find((x) => (regex(x, url)));
+}
+
 // Cache the result status in case we are not doing web requests.
 let statusCache = {};
 
@@ -68,7 +73,7 @@ function processPage(rawContent, signature, url, tabId) {
   const content = new Minimize({ spare:true, conditionals: true, empty: true, quotes: true }).parse(rawContent)
     .replace(/^\s*<!doctype[^>]*>/i, '');
 
-  const shouldCheck = Object.keys(patterns).find((x) => (regex(x, url)));
+  const shouldCheck = getPubkey(patterns, url);
 
   if (shouldCheck) {
     try {
@@ -129,6 +134,9 @@ if (hasFilteredResponse()) {
   browser.webNavigation.onCommitted.addListener((details) => {
     if (details.url in statusCache) {
       updateBrowserAction(statusCache[details.url], details.tabId);
+    } else if (getPubkey(patterns, details.url)) {
+      // We should never get here, but if there are issues, at least show an icon indicating of that.
+      updateBrowserAction(unsureSignature, details.tabId);
     }
   });
 } else {
