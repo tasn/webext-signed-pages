@@ -31,6 +31,12 @@ Opera users can [enable Chrome extensions](https://addons.opera.com/extensions/d
 
 All you need to do is install the extension, and from its settings page, add patterns to match pages you'd like to verify, and their corresponding publisher's public key. The developers of those websites must have their pages signed for this extension to work.
 
+Users with the browser extension configured will then see a green shield icon for verified pages, and a red one for pages with a bad or missing signature (assuming they were expected to have one).
+
+For example:
+
+![Good signature](https://stosb.com/blog/signed-web-pages/images/signed-pages/screenshot-good.png)
+
 ### Example pages
 
 You can try the following example pages to see how the extension behaves:
