@@ -9,11 +9,19 @@ A browser extension to verify the authenticity (PGP signature) of web pages.
 [![Mozilla Add-on](https://img.shields.io/amo/v/signed-pages.svg)](https://addons.mozilla.org/addon/signed-pages/)
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/pdhofgeoopaglkejgpjojeikbdmkmkbp.svg)](https://chrome.google.com/webstore/detail/signed-pages/pdhofgeoopaglkejgpjojeikbdmkmkbp)
 
-# Why?
+# Overview
+
+## Why?
 
 This extension was originally created to improve the security of the [EteSync web app](https://www.etesync.com). One of the biggest issues with securing web applications is the fact that the app (JavaScript) is delivered to you every time you open the page. This means that a malicious (or compromised) web server could change the code to steal your supposedly client-side-only and secure data.
 
 This extension solves this by verifying the code really came from the developer. While this doesn't protect you from a malicious developer, it at least brings the security of the web app to a similar level to that of native apps.
+
+## How does it work?
+
+Developers sign their web pages using their secure PGP key **before** uploading the pages to the server (for example, on their development machine).
+Users add a website's configuration (paths and matching publickey), if not already present.
+Then, every time the users access the website, the extension will indicate if the HTML pages are correctly signed, and thanks to subresource-integrity, also verify the integrity of external resources.
 
 # Usage
 
@@ -53,7 +61,7 @@ You need to add a comment at the top of the html file (right after the doctype i
 
 As you can see, it's a bit involved, so we created a script that does all of this for you. All you need to do is make sure you have a comment at the top of the file that contains the special replace tag like in [example.html](example.html).
 
-And then just run:
+And then just run, on a secure machine, preferably with a PGP key on a separate hardware token:
 
 ```
 # Print the signed page to stdout
@@ -63,7 +71,7 @@ $ ./page-signer.js input.html
 $ ./page-signer.js input.html output.html
 ```
 
-It's important to have all of the script tags in the page included with [subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) correctly set. This way you only need to sign the html page, and the rest will be automatically validated by the browser, ensuring that all of the scripts and styles used in the page are indeed what you expect.
+It's important that all of the external resources in the page (JS and CSS) will have [subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) correctly set. This way you only need to sign the html page, and the rest will be automatically validated by the browser, ensuring that all of the scripts and styles used in the page are indeed what you expect.
 
 ### A note on dynamic websites
 
@@ -121,6 +129,22 @@ Other browsers are implemented slightly differently and may be exposed to simila
 # Known issues
 
 * On Firefox, you may need to refresh a page for the first time after installing the extension if the page was already in cache.
+
+# FAQ
+
+## Can I sign only parts of the page? Or only external JavaScript?
+
+**No you can't.** Verifying only part of a page would be very useful. One could, for example, automatically verify authorship of blog posts. Unfortunately, because of HTML's flexibility, it's not possible.
+
+Let's first take a look at verifying only external JS. The main problem would be that the page itself could have javascript there (or additional unverified external javascript) that can run and do whatever it wants, so this is obviously not safe.
+Let's continue with this use case, and just disallow any embedded scripts in the page, or external, unverified javascript. We now have a problem that a malicious server could for example have a div overlay that when clicked triggers javascript.
+Let's assume for the sake of discussion that we don't require any inline JS and that, so we can just block all of the inline JS using CSP.
+
+Even with the above solved, an attacker can still for example, modify buttons to be forms, rather than AJAX requests (of if already a form, change the target), which means the data will be sent to an attacker controlled server. This is obviously not good. Another thing an attacker could do, is change your announcements, bitcoin addresses, PGP keys, and a variety of other parts. OK, so allowing changing the HTML is a bad idea.
+
+What about CSS? This can also be problematic! An attacker can hide important text, replace text with malicious text (think again, bitcoin, PGP keys and etc) and probably more issues that I haven't considered.
+
+This is why I verify the whole page an suggest using SRI even for CSS. HTML is very complex, so the attack surface is very wide.
 
 # Attribution
 
