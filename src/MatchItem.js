@@ -24,13 +24,14 @@ export default class MatchItem extends React.PureComponent {
 
     return (
       <div>
-        <label>URL Match: </label>
-        <input
+        <label>URL Matches (each on a separate line): </label>
+        <textarea
           type="text"
           name="regex"
           placeholder="*://example.com/secure/*"
           style={style.fullWidth}
           value={this.props.regex}
+          rows={3}
           onChange={this.handleInputChange}
         />
         <br/>

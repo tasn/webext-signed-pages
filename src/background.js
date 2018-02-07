@@ -15,7 +15,10 @@ function regex(pattern, input) {
 function transformPatternsFromStorage(items) {
   let ret = {};
   items.forEach((item) => {
-    ret[item.regex] = item.pubkey;
+    const regexes = item.regex.trim().split('\n');
+    regexes.forEach((regex) => {
+      ret[regex] = item.pubkey;
+    });
   });
 
   return ret;
