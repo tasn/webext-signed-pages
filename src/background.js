@@ -7,6 +7,8 @@ import * as openpgp from 'openpgp';
 
 import Minimize from 'minimize';
 
+import defaultItems from 'default-items';
+
 function regex(pattern, input) {
   const re = matchPatternToRegExp(pattern);
   return re.test(input);
@@ -28,6 +30,8 @@ let patterns = {};
 browser.storage.local.get('items').then((result) => {
   if (result.items) {
     patterns = transformPatternsFromStorage(result.items);
+  } else {
+    browser.storage.local.set({ items: defaultItems });
   }
 });
 browser.storage.onChanged.addListener((changes, area) => {
