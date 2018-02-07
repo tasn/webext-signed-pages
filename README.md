@@ -71,7 +71,7 @@ $ ./page-signer.js input.html
 $ ./page-signer.js input.html output.html
 ```
 
-It's important that all of the external resources in the page (JS and CSS) will have [subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) correctly set. This way you only need to sign the html page, and the rest will be automatically validated by the browser, ensuring that all of the scripts and styles used in the page are indeed what you expect.
+It's important that all of the external resources to the page (JS and CSS, whether hosted on the same server, or not) will have [subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) correctly set. This way you only need to sign the html page, and the rest will be automatically validated by the browser, ensuring that all of the scripts and styles used in the page are indeed what you expect.
 
 ### A note on dynamic websites
 
