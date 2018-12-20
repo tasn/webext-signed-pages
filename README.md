@@ -57,18 +57,43 @@ Install the extension and add the pattern and pubkey shown in the page from the 
 
 ## As a developer
 
-You need to add a comment at the top of the html file (right after the doctype if exists) that contains the detached PGP signature of the content of the `<html>` tag after it has been minified with [minimized](https://github.com/Swaagie/minimize) with a specific set of settings.
+The signatures are specified in html `<meta>` tags with the name `signature` within the document `<head>`.  There are two types of signatures available: one over the whole document, and one over a minimized version.  The signature over the minimized version helps with cross compatiblility accross different browsers.  The whole document signatures may be more secure, but only works with browsers that support `filteredResponseData` (Currently only Firefox).  Both types of signatures can be included in a document.
 
-As you can see, it's a bit involved, so we created a script that does all of this for you. All you need to do is make sure you have a comment at the top of the file that contains the special replace tag like in [example.html](example.html).
+The `content` of the `signature` `<meta` tag are name-value pairs separated by commas.  The fields are:
+ - type - *required*: (`pgp` or `pgp_minimized`)
+ - version - *required* - ( major.minor.patch )
+ - signature - *required* - (the actual armored gpg signature)
+ - allowedMethods - *optional* - Space seperated list of (`filteredResponseData`, `outsideHTML`). 
+   - Default: "`filteredResponseData outsideHTML`"
+
+To sign the document, you must include all of content of each signature `<meta>` tag except for the signature itself.  There can be no whitespace between the `signature=` and the next item or end of tag.
+
+Example:
+ ```
+   <meta name="signature" content="
+      type=pgp,
+      version=1.0.0,
+      allowedMethods=filteredResponseData,
+      signature=">
+```
+
+For the whole document signature (type `pgp`), all you need to do is sign the document and include the signature in the meta tag.
+
+For the minimized signature (type `pgp_minimized`), you will need to minimize with [minimize](https://github.com/Swaagie/minimize), version 2.1.0, with a specific set of settings. You will then sign this minimized version and include the signature in the original document `<meta>` tag
+
+As you can see, it's a bit involved, so we created a script that does all of this for you. All you need to do is make sure you include specific placeholders as in [example.html](example.html).
 
 And then just run, on a secure machine, preferably with a PGP key on a separate hardware token:
 
 ```
-# Print the signed page to stdout
-$ ./page-signer.js input.html
+# find key id for signing key
+$ gpg --list-keys
+
+# Print the signed page to stdout (You will have a different keyid)
+$ ./page-signer.js 9C43B88E input.html
 
 # Print the signed page to a file (can be the same as the input file)
-$ ./page-signer.js input.html output.html
+$ ./page-signer.js 9C43B88E input.html output.html
 ```
 
 It's important that all of the external resources to the page (JS and CSS, whether hosted on the same server, or not) will have [subresource integrity](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity) correctly set. This way you only need to sign the html page, and the rest will be automatically validated by the browser, ensuring that all of the scripts and styles used in the page are indeed what you expect.
@@ -116,7 +141,13 @@ What makes matters even worse is that browsers don't return the html as delivere
 
 Be aware that the minifier may have bugs that can cause a page to pass verification while being different! Unlikely, but possible, so watch out for minifier bugs.
 
-Since the same signature needs to work on all browsers, we unfortunately have to minimise the html on Firefox too. This workaround will be removed once the aforementioned `filterResponseData` is implemented across browsers.
+# Versions
+
+All signature types must have a version and they must match the supported versions within this extension.  A version matches if the major and minor numbers match, and the patch level on the page is less than or equal to the supported patch level.  This allows backwards-compatible patches without invalidating previous signatures.  Also, when there is new version, the older version will be supported for time.
+
+Current Supported Versions:
+- pgp: 1.0.0
+- pgp_minimized: 1.0.0
 
 # Potential attacks
 
