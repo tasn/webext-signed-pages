@@ -158,31 +158,36 @@ function validateSignature(content, signature, pageOptions, pubkey) {
   });
 }
 
+// Returns when first promise returns true
+function promise_any(promises) {
+  return new Promise((resolve,reject) => {
+    Promise.all(promises.map(promise => promise.then(value => {
+      if (value)
+        resolve(value);
+      return value;
+    }).catch( error => {
+      reject(error);
+    }))).then(values =>  {
+      if (values.every(x => x == false))
+        resolve(false)
+    })
+  })
+}
+
 function validateSignatures(content, options, pubKey, method) {
-  let last = Promise.resolve(false);
-  for (let signature of options.signatures) {
-    let promise = null;
+  return promise_any(options.signatures.map(signature => {
     if (signature.allowedmethods.includes(method.toLowerCase())) {
       if (signature.type == 'pgp') {
-        promise = validateSignature(content, signature.signature, options, pubKey);
+        return validateSignature(content, signature.signature, options, pubKey);
       } else if (signature.type == 'pgpMinimized') {
         if (matchVersions(signature.version, '1.0.0')) {
           const signedContent = minimize_1_0(content);
-          promise =  validateSignature(signedContent, signature.signature, options, pubKey);
+          return validateSignature(signedContent, signature.signature, options, pubKey);
         }
       }
     }
-    // Chain promises returning when the first one is true
-    if (promise) {
-      last = last.then(verified => {
-        if (verified)
-          return verified;
-        else
-          return promise;
-      })
-    }
-  }
-  return last;
+    return Promise.resolve(false);
+  }))
 }
 
 function processPage(rawContent, legacySignature, url, tabId, method) {
