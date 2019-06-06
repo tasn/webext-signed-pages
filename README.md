@@ -100,11 +100,11 @@ Setup the environment needed for this extension and `page-signer.js`:
 
 To build the extension for development run:
 
-`npm build`
+`npm run-script build`
 
 To build it for deployment run:
 
-`npm package`
+`npm run-script package`
 
 # Technical details
 
