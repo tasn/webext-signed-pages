@@ -5,8 +5,6 @@ import { matchPatternToRegExp } from 'match-pattern';
 
 import * as openpgp from 'openpgp';
 
-import Minimize from 'minimize';
-
 import defaultItems from 'default-items';
 
 function regex(pattern, input) {
@@ -76,27 +74,159 @@ function getPubkey(pubkeyPatterns, url) {
 // Cache the result status in case we are not doing web requests.
 let statusCache = {};
 
-function processPage(rawContent, signature, url, tabId) {
+// Versioned minimize
+function minimize_1_0(rawContent) {
+  const Minimize = require('minimize@2.1.0');
   const content = new Minimize({ spare:true, conditionals: true, empty: true, quotes: true }).parse(rawContent)
-    .replace(/^\s*<!doctype[^>]*>/i, '');
+  .replace(/^\s*<!doctype[^>]*>/i, '');
+  return content;
+}
 
-  const shouldCheck = getPubkey(patterns, url);
+// Version match. 
+// returns true if major and minor are equal and patch less than or equal to taget
+function matchVersions(version, target) {
+  let v = version.split(".").map(i => parseInt(i,10));
+  let t = target.split(".").map(i => parseInt(i,10));
+  if (v.length != 3) 
+    return false;
+  return (v[0] == t[0]) && (v[1] == t[1]) && (v[2] <= t[2]);
+}
 
-  if (shouldCheck) {
-    try {
-      const pubkey = patterns[shouldCheck];
+function defaultOptions() {
+  return {
+    signatures: [],
+    trustedPublicKeys: [],
+    trustedDNS: false,
+  };
+}
 
-      const options = {
-        message: openpgp.message.fromBinary(openpgp.util.str2Uint8Array(content)),
-        signature: openpgp.signature.readArmored(signature),
-        publicKeys: openpgp.key.readArmored(pubkey).keys,
-      };
+function defaultSignature() {
+  return {
+    allowedmethods:['filteredrequestdata', 'outsidehtml']
+  }
+}
 
-      openpgp.verify(options).then((verified) => {
-        const signatureData = (verified.signatures[0].valid) ? goodSignature : badSignature;
-        updateBrowserAction(signatureData, tabId);
-        statusCache[url] = signatureData;
-      });
+function parseOptions(content) {
+  let options = defaultOptions();
+  const head = content.split(/<\/head\s*>/i)[0];
+
+  // Parse signature metadata
+  const signatureRegex = RegExp('<meta\\s+name="signature"\\s+content="([^"]*)"\\s*>', 'gi');
+  const nameRegex = RegExp('\\s*([\\w-]+)=([^,"]*),?', 'gi');
+  let sigMatch;
+  while( (sigMatch = signatureRegex.exec(head)) !== null ) {
+    let signature = defaultSignature();
+    let nameMatch;
+    while ( (nameMatch = nameRegex.exec(sigMatch[1])) !== null ) {
+      const name = nameMatch[1].toLowerCase();
+      if (name == 'signature') {
+        // preserve whitespace to ensure all of it is stripped out
+        signature[name] = nameMatch[2];
+      } else if (name == 'allowedmethods') {
+        // split on spaces
+        signature[name] = nameMatch[2].split(" ").map(s => s.trim().toLowerCase());
+      } else {
+        signature[name] = nameMatch[2].trim().toLowerCase();
+       }
+    }
+    if (signature.type && signature.version && signature.signature)
+      options.signatures.push(signature);
+  }
+
+  return options;
+}
+
+// Strip all signatures from content for signature verification
+function stripSignatures(content, options) {
+  let newContent = content;
+  for (let signature of options.signatures)  {
+    newContent = newContent.replace(signature.signature, "");
+    signature.signature = signature.signature.trim();
+  }
+  return newContent;
+}
+
+function validateSignature(content, signature, pageOptions, pubkey) {
+  const options = {
+    message: openpgp.message.fromBinary(openpgp.util.str2Uint8Array(content)),
+    signature: openpgp.signature.readArmored(signature),
+    publicKeys: openpgp.key.readArmored(pubkey).keys,
+  };
+
+  return openpgp.verify(options).then((verified) => {
+    return verified.signatures[0].valid;
+  });
+}
+
+// Returns when first promise returns true
+function promise_any(promises) {
+  return new Promise((resolve,reject) => {
+    Promise.all(promises.map(promise => promise.then(value => {
+      if (value)
+        resolve(value);
+      return value;
+    }).catch( error => {
+      reject(error);
+    }))).then(values =>  {
+      if (values.every(x => x == false))
+        resolve(false)
+    })
+  })
+}
+
+function validateSignatures(content, options, pubKey, method) {
+  return promise_any(options.signatures.map(signature => {
+    if (signature.allowedmethods.includes(method.toLowerCase())) {
+      if (signature.type == 'pgp') {
+        return validateSignature(content, signature.signature, options, pubKey);
+      } else if (signature.type == 'pgpMinimized') {
+        if (matchVersions(signature.version, '1.0.0')) {
+          const signedContent = minimize_1_0(content);
+          return validateSignature(signedContent, signature.signature, options, pubKey);
+        }
+      }
+    }
+    return Promise.resolve(false);
+  }))
+}
+
+function processPage(rawContent, legacySignature, url, tabId, method) {
+  const pattern = getPubkey(patterns, url);
+  if (pattern) {
+    // only test if the user defined a pattern
+    try {  
+      const pubkey = patterns[pattern].trim();
+      let options, content;
+      if (legacySignature) {
+        // Legacy signature
+        options = defaultOptions();
+        options.signatures = [{
+          type: 'pgp_minimized',
+          version: '1.0.0',
+          signature: legacySignature,
+          allowedmethods: ['filterrequestmetadata', 'outsidehtml']
+        }];
+        // ?? Do we need to strip signature? Old code relied on minimizer
+        content = rawContent;
+      } else {
+        options = parseOptions(rawContent);
+        content = stripSignatures(rawContent, options);
+      }
+      if (options !== null) {
+        validateSignatures(content, options, pubkey, method)
+        .then((verified) => {
+          const signatureData = (verified) ? goodSignature : badSignature;
+          updateBrowserAction(signatureData, tabId);
+          statusCache[url] = signatureData;
+        })
+        .catch(() => {
+          updateBrowserAction(badSignature, tabId);
+          statusCache[url] = badSignature;
+        });
+      } else {
+        updateBrowserAction(badSignature, tabId);
+        statusCache[url] = badSignature;
+      }
     } catch (e) {
       updateBrowserAction(badSignature, tabId);
       statusCache[url] = badSignature;
@@ -106,9 +236,10 @@ function processPage(rawContent, signature, url, tabId) {
   }
 }
 
+// extract legacy signature
 function extractSignature(str) {
-  const signatureMatch = /-----BEGIN PGP SIGNATURE-----[^-]*-----END PGP SIGNATURE-----/g.exec(str);
-  return signatureMatch ? signatureMatch[0] : undefined;
+  const signatureMatch = /<!--!\s*(-----BEGIN PGP SIGNATURE-----[^-]*-----END PGP SIGNATURE-----)/g.exec(str);
+  return signatureMatch ? signatureMatch[1] : undefined;
 }
 
 if (hasFilteredResponse()) {
@@ -122,7 +253,7 @@ if (hasFilteredResponse()) {
 
       const signature = extractSignature(str);
 
-      processPage(str, signature, details.url, details.tabId);
+      processPage(str, signature, details.url, details.tabId, "filterResponseData");
 
       filter.write(event.data);
       filter.disconnect();
@@ -149,7 +280,7 @@ if (hasFilteredResponse()) {
 } else {
   browser.runtime.onMessage.addListener(
     (request, sender) => {
-      processPage(request.content, extractSignature(request.signature), sender.url, sender.tab.id)
+      processPage(request.content, extractSignature(request.signature), sender.url, sender.tab.id, "outsideHTML")
     }
   );
 }

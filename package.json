@@ -1,10 +1,10 @@
 {
   "name": "signed-pages",
   "description": "Verifies PGP signed pages for extra security against malicious or breanched servers.",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "main": "index.js",
   "scripts": {
-    "build": "webpack -w --display-error-details --progress --colors",
+    "build": "npm-install-version minimize@2.1.0 && webpack -w --display-error-details --progress --colors",
     "package": "webpack --colors && web-ext build -s extension",
     "start": "web-ext run -s extension/"
   },
@@ -15,13 +15,13 @@
     "babel-loader": "^7.1.2",
     "babel-preset-react": "^6.24.1",
     "babel-runtime": "^6.26.0",
+    "npm-install-version": "^6.0.2",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "web-ext": "^2.2.2",
     "webpack": "^3.10.0"
   },
   "dependencies": {
-    "minimize": "^2.1.0",
     "openpgp": "^2.6.1",
     "webextension-polyfill": "^0.2.1"
   },
