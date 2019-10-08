@@ -113,6 +113,7 @@ function extractSignature(str) {
 
 if (hasFilteredResponse()) {
   const listener = (details) => {
+  debugger;
     // FIXME: Only filter pages that we care about, the rest can skip this.
     let filter = browser.webRequest.filterResponseData(details.requestId);
     let decoder = new TextDecoder('utf-8');
@@ -121,9 +122,11 @@ if (hasFilteredResponse()) {
       const str = decoder.decode(event.data, {stream: true});
 
       const signature = extractSignature(str);
-
-      processPage(str, signature, details.url, details.tabId);
-
+      
+      if (signature) {
+        processPage(str, signature, details.url, details.tabId);
+      }
+      
       filter.write(event.data);
       filter.disconnect();
     }
