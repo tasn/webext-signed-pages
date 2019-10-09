@@ -77,12 +77,12 @@ function getPubkey(pubkeyPatterns, url) {
 let statusCache = {};
 
 function processPage(rawContent, signature, url, tabId) {
-  const content = new Minimize({ spare:true, conditionals: true, empty: true, quotes: true }).parse(rawContent)
-    .replace(/^\s*<!doctype[^>]*>/i, '');
-
   const shouldCheck = getPubkey(patterns, url);
 
   if (shouldCheck) {
+    const content = new Minimize({ spare:true, conditionals: true, empty: true, quotes: true }).parse(rawContent)
+      .replace(/^\s*<!doctype[^>]*>/i, '');
+
     try {
       const pubkey = patterns[shouldCheck];
 
@@ -113,7 +113,14 @@ function extractSignature(str) {
 
 if (hasFilteredResponse()) {
   const listener = (details) => {
-    // FIXME: Only filter pages that we care about, the rest can skip this.
+    const shouldCheck = getPubkey(patterns, details.url);
+
+    // If we shouldn't check exit before even filtering
+    if (!shouldCheck) {
+      processPage(null, null, details.url, details.tabId);
+      return {};
+    }
+
     let filter = browser.webRequest.filterResponseData(details.requestId);
     let decoder = new TextDecoder('utf-8');
 
