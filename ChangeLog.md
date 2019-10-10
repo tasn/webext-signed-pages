@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.4.2
+* Downgrade openpgp which made the plugin stop working
+
 ## Version 0.4.1
 * Abort signature verification earlier if url not in patterns
   * This should fix broken downloads in some cases (#17)
