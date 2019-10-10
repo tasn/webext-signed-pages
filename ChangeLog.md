@@ -1,5 +1,10 @@
 # Changelog
 
+## Version 0.4.1
+* Abort signature verification earlier if url not in patterns
+  * This should fix broken downloads in some cases (#17)
+* Update some dependencies
+
 ## Version 0.4.0
 * Add support for multiple sites per key.
 * Add a default configuration to help users bootstrap their list of trusted websites.
