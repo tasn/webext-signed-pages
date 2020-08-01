@@ -39,6 +39,13 @@
     "@cliqz-oss/firefox-client" "0.3.1"
     es6-promise "^2.0.1"
 
+"@mattiasbuelens/web-streams-polyfill@0.1.0-alpha.4":
+  version "0.1.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/@mattiasbuelens/web-streams-polyfill/-/web-streams-polyfill-0.1.0-alpha.4.tgz#fde9688fac83ff40e3be1a01973c867e12a74492"
+  integrity sha512-WAsiWLWc7ZNS1b0qFAoKSFLeqXesPa60YelVE3pPKc6pZ4iuSW9l6DBxY4hMPQj1dQCBDrUHJj/NDSjE85bTRQ==
+  dependencies:
+    "@types/whatwg-streams" "0.0.5"
+
 "@types/node@*":
   version "12.0.0"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.0.0.tgz#d11813b9c0ff8aaca29f04cbc12817f4c7d656e5"
@@ -48,6 +55,11 @@
   version "8.10.48"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.48.tgz#e385073561643a9ba6199a1985ffc03530f90781"
   integrity sha512-c35YEBTkL4rzXY2ucpSKy+UYHjUBIIkuJbWYbsGIrKLEWU5dgJMmLkkIb3qeC3O3Tpb1ZQCwecscvJTDjDjkRw==
+
+"@types/whatwg-streams@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@types/whatwg-streams/-/whatwg-streams-0.0.5.tgz#66c3852b8e33f2a2ca225a6d8fd8096e34d17fe6"
+  integrity sha512-y1UgRuGO64x/v+UIerA2AMquW/qxaIUD95rbf8FYxtVG//D3381+JexnZfcEiZSqXErdxdPmXpz8srY7gs9Grw==
 
 "@yarnpkg/lockfile@^1.0.2":
   version "1.1.0"
@@ -174,6 +186,13 @@ addons-linter@1.4.1:
     yauzl "2.9.2"
   optionalDependencies:
     fsevents "2.0.1"
+
+address-rfc2822@^2.0.3:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/address-rfc2822/-/address-rfc2822-2.0.5.tgz#56f174f74db2e9903562bd5f1a3e043a19aa4c4f"
+  integrity sha512-SDmgEM2qAXyBZ9v6QMGbBKsvfkClZy8I2ormg/+uopbrP8XzpcoObd1QNe6bnc+KWaHLjGVu7+PghCOC52TqGA==
+  dependencies:
+    email-addresses "^3.1.0"
 
 adm-zip@~0.4.x:
   version "0.4.13"
@@ -437,6 +456,11 @@ asap@~2.0.3:
   resolved "https://registry.yarnpkg.com/asap/-/asap-2.0.6.tgz#e50347611d7e690943208bbdafebcbc2fb866d46"
   integrity sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=
 
+"asmcrypto.js@github:openpgpjs/asmcrypto":
+  version "2.3.2"
+  uid "475cffa5ccb2cf2556427056679414acf3610d1b"
+  resolved "https://codeload.github.com/openpgpjs/asmcrypto/tar.gz/475cffa5ccb2cf2556427056679414acf3610d1b"
+
 asn1.js@^4.0.0:
   version "4.10.1"
   resolved "https://registry.yarnpkg.com/asn1.js/-/asn1.js-4.10.1.tgz#b9c2bf5805f1e64aadeed6df3a2bfafb5a73f5a0"
@@ -445,6 +469,16 @@ asn1.js@^4.0.0:
     bn.js "^4.0.0"
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
+
+asn1.js@^5.0.0:
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/asn1.js/-/asn1.js-5.4.1.tgz#11a980b84ebb91781ce35b0fdc2ee294e3783f07"
+  integrity sha512-+I//4cYPccV8LdmBLiX8CYvf9Sp3vQsrqu2QNXRcrbiWvcx/UdlFiqUJJzxRQxgsZmvhXhn4cSKeSmoFjVdupA==
+  dependencies:
+    bn.js "^4.0.0"
+    inherits "^2.0.1"
+    minimalistic-assert "^1.0.0"
+    safer-buffer "^2.1.0"
 
 asn1@~0.2.3:
   version "0.2.4"
@@ -808,7 +842,7 @@ bluebird@~2.9.24:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-2.9.34.tgz#2f7b4ec80216328a9fddebdf69c8d4942feff7d8"
   integrity sha1-L3tOyAIWMoqf3evfacjUlC/v99g=
 
-bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.4.0:
+bn.js@^4.0.0, bn.js@^4.1.0, bn.js@^4.1.1, bn.js@^4.11.8, bn.js@^4.4.0:
   version "4.11.9"
   resolved "https://registry.yarnpkg.com/bn.js/-/bn.js-4.11.9.tgz#26d556829458f9d1e81fc48952493d0ba3507828"
   integrity sha512-E6QoYqCKZfgatHTdHzs1RRKP7ip4vvm+EyRUeE2RF0NblwVvb0p6jSVeNTOFxPn26QXN2o6SMfNxKp6kU8zQaw==
@@ -966,10 +1000,10 @@ buffer@^4.3.0:
     ieee754 "^1.1.4"
     isarray "^1.0.0"
 
-buffer@^5.1.0:
-  version "5.2.1"
-  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.2.1.tgz#dd57fa0f109ac59c602479044dca7b8b3d0b71d6"
-  integrity sha512-c+Ko0loDaFfuPWiL02ls9Xd3GO3cPVmUobQ6t3rXNUk304u6hGq+8N/kFi+QEIKhzK3uwolVhLzszmfLmMLnqg==
+buffer@^5.0.8, buffer@^5.1.0:
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/buffer/-/buffer-5.6.0.tgz#a31749dc7d81d84db08abf937b6b8c4033f62786"
+  integrity sha512-/gDYp/UtU0eA1ys8bOs9J6a+E/KWIY+DZ+Q2WESNUA0jFRsJOc0SNUO6xJ5SGA1xueg3NL65W6s+NY5l9cunuw==
   dependencies:
     base64-js "^1.0.2"
     ieee754 "^1.1.4"
@@ -1339,6 +1373,13 @@ commander@^2.3.0, commander@^2.6.0:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
+
+commander@~2.8.1:
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-2.8.1.tgz#06be367febfda0c330aa1e2a072d3dc9762425d4"
+  integrity sha1-Br42f+v9oMMwqh4qBy09yXYkJdQ=
+  dependencies:
+    graceful-readlink ">= 1.0.0"
 
 common-tags@1.8.0:
   version "1.8.0"
@@ -1860,6 +1901,24 @@ elliptic@^6.0.0:
     inherits "^2.0.1"
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
+
+"elliptic@github:openpgpjs/elliptic":
+  version "6.5.1"
+  uid ab7d8268c60b6abeb175841c578c224ac5b2d279
+  resolved "https://codeload.github.com/openpgpjs/elliptic/tar.gz/ab7d8268c60b6abeb175841c578c224ac5b2d279"
+  dependencies:
+    bn.js "^4.4.0"
+    brorand "^1.0.1"
+    hash.js "^1.0.0"
+    hmac-drbg "^1.0.0"
+    inherits "^2.0.1"
+    minimalistic-assert "^1.0.0"
+    minimalistic-crypto-utils "^1.0.0"
+
+email-addresses@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/email-addresses/-/email-addresses-3.1.0.tgz#cabf7e085cbdb63008a70319a74e6136188812fb"
+  integrity sha512-k0/r7GrWVL32kZlGwfPNgB2Y/mMXVTq/decgLczm/j34whdaspNrZO8CnXPf1laaHxI6ptUlsnAxN+UAPw+fzg==
 
 email-validator@^2.0.4:
   version "2.0.4"
@@ -2929,7 +2988,7 @@ hash-base@^3.0.0:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
-hash.js@^1.0.0, hash.js@^1.0.3:
+hash.js@^1.0.0, hash.js@^1.0.3, hash.js@^1.1.3:
   version "1.1.7"
   resolved "https://registry.yarnpkg.com/hash.js/-/hash.js-1.1.7.tgz#0babca538e8d4ee4a0f8988d68866537a003cf42"
   integrity sha512-taOaskGt4z4SOANNseOviYDvjEJinIkRgmp7LbKP2YTTmVxWBl87s/uzK9r+44BclBSp2X7K1hqeNfz9JbBeXA==
@@ -3406,7 +3465,7 @@ is-retry-allowed@^1.0.0:
   resolved "https://registry.yarnpkg.com/is-retry-allowed/-/is-retry-allowed-1.1.0.tgz#11a060568b67339444033d0125a61a20d564fb34"
   integrity sha1-EaBgVotnM5REAz0BJaYaINVk+zQ=
 
-is-stream@^1.0.0, is-stream@^1.0.1, is-stream@^1.1.0:
+is-stream@^1.0.0, is-stream@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/is-stream/-/is-stream-1.1.0.tgz#12d4a3dd4e68e0b79ceb8dbc84173ae80d91ca44"
   integrity sha1-EtSj3U5o4Lec6428hBc66A2RykQ=
@@ -4261,13 +4320,10 @@ nice-try@^1.0.4:
   resolved "https://registry.yarnpkg.com/nice-try/-/nice-try-1.0.5.tgz#a3378a7696ce7d223e88fc9b764bd7ef1089e366"
   integrity sha512-1nh45deeb5olNY7eX82BkPO7SSxR5SSYJiPTrTdFUVYwAl8CKMA5N9PjTYkHiRjisVcxcQ1HXdLhx2qxxJzLNQ==
 
-node-fetch@^1.3.3:
-  version "1.7.3"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
-  integrity sha512-NhZ4CsKx7cYm2vSrBAr2PvFOe6sWDf0UYLRqA6svUYg7+/TSfVAu49jYC4BvQ4Sms9SZgdqGBgroqfDhJdTyKQ==
-  dependencies:
-    encoding "^0.1.11"
-    is-stream "^1.0.1"
+node-fetch@^2.1.2:
+  version "2.6.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
+  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
 
 node-forge@^0.7.1:
   version "0.7.6"
@@ -4490,13 +4546,24 @@ onetime@^2.0.0:
   dependencies:
     mimic-fn "^1.0.0"
 
-openpgp@^2.6.1:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/openpgp/-/openpgp-2.6.2.tgz#1039d5070dc01c04e51fab58273fdf29a1ee098b"
-  integrity sha512-Bpgf4Dx5BKJMI0z47j4Bga4opC+oUU935MlFyNS/KZfh4gVGUGCR+P1y/22EtlgtfP9Rw6EHnpVJZ9xC+iOURg==
+openpgp@^4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/openpgp/-/openpgp-4.3.0.tgz#7c54f6c075864b71c2cf046fe15905ef0110ee4e"
+  integrity sha512-NyD72x5f9gSxh11KnnNGqJTrVfAz+x2ZbL3FrZmOWHUKHiUgdwsoEui0svByloicJcoOc9BW7YA7RLSK4sF/dg==
   dependencies:
-    node-fetch "^1.3.3"
+    "@mattiasbuelens/web-streams-polyfill" "0.1.0-alpha.4"
+    address-rfc2822 "^2.0.3"
+    asmcrypto.js "github:openpgpjs/asmcrypto"
+    asn1.js "^5.0.0"
+    bn.js "^4.11.8"
+    buffer "^5.0.8"
+    elliptic "github:openpgpjs/elliptic"
+    hash.js "^1.1.3"
+    node-fetch "^2.1.2"
     node-localstorage "~1.3.0"
+    pako "^1.0.6"
+    seek-bzip "github:openpgpjs/seek-bzip"
+    web-stream-tools "github:openpgpjs/web-stream-tools"
 
 opn@5.3.0:
   version "5.3.0"
@@ -4682,10 +4749,10 @@ package-json@^4.0.0:
     registry-url "^3.0.3"
     semver "^5.1.0"
 
-pako@~1.0.2, pako@~1.0.5:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.10.tgz#4328badb5086a426aa90f541977d4955da5c9732"
-  integrity sha512-0DTvPVU3ed8+HNXOu5Bs+o//Mbdj9VNQMUOe9oKCwh8l0GNwpTDMKCWbRjgtD291AWnkAgkqA/LOnQS8AmS1tw==
+pako@^1.0.6, pako@~1.0.2, pako@~1.0.5:
+  version "1.0.11"
+  resolved "https://registry.yarnpkg.com/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
+  integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
 
 parse-asn1@^5.0.0:
   version "5.1.4"
@@ -5518,6 +5585,13 @@ secure-keys@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/secure-keys/-/secure-keys-1.0.0.tgz#f0c82d98a3b139a8776a8808050b824431087fca"
   integrity sha1-8MgtmKOxOah3aogIBQuCRDEIf8o=
+
+"seek-bzip@github:openpgpjs/seek-bzip":
+  version "1.0.5-git"
+  uid "4b89457f20c0e1921b4689106a31c99782c29829"
+  resolved "https://codeload.github.com/openpgpjs/seek-bzip/tar.gz/4b89457f20c0e1921b4689106a31c99782c29829"
+  dependencies:
+    commander "~2.8.1"
 
 semver-diff@^2.0.0:
   version "2.1.0"
@@ -6794,6 +6868,11 @@ web-ext@^2.2.2:
     watchpack "1.5.0"
     yargs "6.6.0"
     zip-dir "1.0.2"
+
+"web-stream-tools@github:openpgpjs/web-stream-tools":
+  version "0.0.1"
+  uid "619abcbe2d9115bb005047f609b72d71108edadb"
+  resolved "https://codeload.github.com/openpgpjs/web-stream-tools/tar.gz/619abcbe2d9115bb005047f609b72d71108edadb"
 
 webextension-polyfill@^0.2.1:
   version "0.2.1"
