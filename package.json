@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "minimize": "^2.1.0",
-    "openpgp": "^2.6.1",
+    "openpgp": "^4.3.0",
     "webextension-polyfill": "^0.2.1"
   },
   "babel": {
