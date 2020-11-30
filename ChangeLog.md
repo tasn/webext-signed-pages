@@ -1,5 +1,8 @@
 # Changelog
 
+## Version 0.5.0
+* Add pim.etesync.com to the list of default signatures
+
 ## Version 0.4.2
 * Downgrade openpgp which made the plugin stop working
 
