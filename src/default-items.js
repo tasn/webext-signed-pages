@@ -8,7 +8,7 @@
 
 const defaultItems = [
 	{
-		regex: "https://client.etesync.com/*",
+		regex: "https://pim.etesync.com/*\nhttps://client.etesync.com/*",
 		pubkey: `-----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQINBE7w1MUBEACv4GUvBKN/eruI8mK/+lNl3L6GvLPhoMhVeI9MKdwr9PeIM/Ll
