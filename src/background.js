@@ -128,9 +128,11 @@ if (hasFilteredResponse()) {
       const str = decoder.decode(event.data, {stream: true});
 
       const signature = extractSignature(str);
-
-      processPage(str, signature, details.url, details.tabId);
-
+      
+      if (signature) {
+        processPage(str, signature, details.url, details.tabId);
+      }
+      
       filter.write(event.data);
       filter.disconnect();
     }
