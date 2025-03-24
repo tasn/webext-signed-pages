@@ -79,7 +79,7 @@ The `page-signer.js` tool above was designed to work with static html files, mea
 
 This is perfect for statically generated websites and blogs using tools such as Pelican and Jekyll, or web apps like that draw their dynamic content through JavaScript such as applications created with React, VueJS, Angular and Ember.
 
-There are some workaronuds to dynamic websites work, by for example including dynamic content that doesn't matter like comments in an `<iframe>`, but those are quite involved and out of scope for this document.
+There are some workarounds to dynamic websites work, by for example including dynamic content that doesn't matter like comments in an `<iframe>`, but those are quite involved and out of scope for this document.
 
 # Supported Sites
 
@@ -90,7 +90,7 @@ If your site already supports Signed Pages please consider adding the following 
 ![Signed Pages Badge](graphics/badge.svg)
 
 List of websites that support Signed Pages:
-* [EteSync Web App](https://client.etesync.com)
+* [EteSync Web App](https://pim.etesync.com)
 
 # Building
 
@@ -140,11 +140,11 @@ Let's first take a look at verifying only external JS. The main problem would be
 Let's continue with this use case, and just disallow any embedded scripts in the page, or external, unverified javascript. We now have a problem that a malicious server could for example have a div overlay that when clicked triggers javascript.
 Let's assume for the sake of discussion that we don't require any inline JS and that, so we can just block all of the inline JS using CSP.
 
-Even with the above solved, an attacker can still for example, modify buttons to be forms, rather than AJAX requests (of if already a form, change the target), which means the data will be sent to an attacker controlled server. This is obviously not good. Another thing an attacker could do, is change your announcements, bitcoin addresses, PGP keys, and a variety of other parts. OK, so allowing changing the HTML is a bad idea.
+Even with the above solved, an attacker can still for example, modify buttons to be forms, rather than AJAX requests (if already a form, change the target), which means the data will be sent to an attacker controlled server. This is obviously not good. Another thing an attacker could do, is change your announcements, bitcoin addresses, PGP keys, and a variety of other parts. OK, so allowing changing the HTML is a bad idea.
 
 What about CSS? This can also be problematic! An attacker can hide important text, replace text with malicious text (think again, bitcoin, PGP keys and etc) and probably more issues that I haven't considered.
 
-This is why I verify the whole page an suggest using SRI even for CSS. HTML is very complex, so the attack surface is very wide.
+This is why I verify the whole page and suggest using SRI even for CSS. HTML is very complex, so the attack surface is very wide.
 
 # Attribution
 
